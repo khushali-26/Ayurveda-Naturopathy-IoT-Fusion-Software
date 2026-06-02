@@ -83,16 +83,16 @@
         Please provide the following information before beginning the wellness assessment.
     </p>
 
-    <form action="questionnaire">
+    <form action="/questionnaire" method="POST">
 
         <label for="name">Full Name</label>
-        <input type="text" id="name" required>
+        <input type="text" id="name" name="name" required>
 
         <label for="age">Age</label>
-        <input type="number" id="age" min="1" max="120" required>
+        <input type="number" id="age" name="age" min="1" max="120" required>
 
         <label for="gender">Gender</label>
-        <select id="gender">
+        <select id="gender" name="gender">
             <option>Select Gender</option>
             <option>Female</option>
             <option>Male</option>

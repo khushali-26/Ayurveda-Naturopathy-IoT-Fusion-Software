@@ -91,6 +91,9 @@ button:hover{
 <h1>Wellness Assessment Questionnaire</h1>
 
 <form action="/analyze" method="POST">
+  <input type="hidden" name="name" value="{{ name }}">
+  <input type="hidden" name="age" value="{{ age }}">
+  <input type="hidden" name="gender" value="{{ gender }}">
 
 <!-- ==================== SECTION 1: PRAKRITI (CONSTITUTION) ==================== -->
 <h3 class="section-title">Section 1 of 3: Prakriti (Inherent Constitution)</h3>
