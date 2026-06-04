@@ -38,7 +38,8 @@ body{
 }
 
 .container{
-    width:70%;
+    width:90%;
+    max-width:1000px;
     margin:30px auto;
     background:white;
     padding:30px;
@@ -81,14 +82,80 @@ button:hover{
     background:#1b5e20;
 }
 
+nav{
+    background:#2e7d32;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:5px 10px;
+    display:inline-block;
+    font-weight:bold;
+}
+
+nav a:hover{
+    text-decoration:underline;
+}
+
+footer{
+    background:#2e7d32;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+
+@media (max-width: 768px){
+
+    .container{
+        width:95%;
+        padding:15px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    .steps{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .step{
+        width:100%;
+        margin-bottom:15px;
+    }
+
+    nav a{
+        display:block;
+        margin:10px 0;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<nav>
+  <a href="/">Home</a>
+  <a href="/assessment">Assessment</a>
+  <a href="/history">History</a>
+  <a href="/about">About</a>
+  <a href="/iot">IoT Architecture</a>
+</nav>
 
-<h1>Wellness Assessment Questionnaire</h1>
+<div class="container"> 
+
+  <h1>Wellness Assessment Questionnaire</h1>
 
 <form action="/analyze" method="POST">
   <input type="hidden" name="name" value="{{ name }}">
@@ -488,6 +555,12 @@ Submit Assessment
 </form>
 
 </div>
+
+<footer>
+    <p>
+        © 2026 Smart Ayurvedic & Naturopathic Wellness Assessment System
+    </p>
+</footer>
 
 </body>
 </html>

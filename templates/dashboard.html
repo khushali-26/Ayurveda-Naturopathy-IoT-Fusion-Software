@@ -16,7 +16,8 @@ body{
 }
 
 .container{
-    width:80%;
+    width:90%;
+    max-width:1000px;
     margin:30px auto;
     background:white;
     padding:30px;
@@ -104,14 +105,93 @@ h1{
     background:#1b5e20;
 }
 
+nav{
+    background:#2e7d32;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:5px 10px;
+    display:inline-block;
+    font-weight:bold;
+}
+
+nav a:hover{
+    text-decoration:underline;
+}
+
+footer{
+    background:#2e7d32;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+
+
+@media (max-width: 768px){
+
+    .container{
+        width:95%;
+        padding:15px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    .steps{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .step{
+        width:100%;
+        margin-bottom:15px;
+    }
+
+    nav a{
+        display:block;
+        margin:10px 0;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
+<nav>
+    <a href="/">Home</a>
+    <a href="/assessment">Assessment</a>
+    <a href="/history">History</a>
+    <a href="/about">About</a>
+    <a href="/iot">IoT Architecture</a>
+</nav>
+
+
 <div class="container">
 
     <h1>Your Wellness Assessment Report</h1>
+
+    <p><strong>Date:</strong> {{ today }}</p>
+
+    <div class="card">
+
+    <h2>Participant Information</h2>
+    <p><strong>Name:</strong> {{ name }}</p>
+    <p><strong>Age:</strong> {{ age }}</p>
+    <p><strong>Gender:</strong> {{ gender }}</p>
+    
+    </div>
 
     <div class="card">
 
@@ -157,6 +237,44 @@ h1{
 
     <div class="card">
 
+        <h2>Wellness Status</h2>
+
+        <div class="dominant">
+            {{ wellness_status }}
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h2>Simulated IoT Sensor Readings</h2>
+        
+        <p><strong>Heart Rate:</strong> {{ heart_rate }} BPM</p>
+
+        <p><strong>Body Temperature:</strong> {{ body_temp }} °F</p>
+
+        <p><strong>Sleep Duration:</strong> {{ sleep_hours }} Hours</p>
+
+        <p><strong>Daily Steps:</strong> {{ steps }}</p>
+
+        <p><strong>Hydration Status:</strong> {{ hydration }}</p>
+
+        <div class="card">
+
+            <h3>IoT Simulation Note</h3>
+
+            <p>
+                The displayed sensor readings are generated through software-based
+                simulation to demonstrate future IoT integration. In a real-world
+                implementation, values would be collected directly from connected
+                health monitoring sensors.
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card">
+
         <h2>Dominant Dosha</h2>
 
         <div class="dominant">
@@ -167,11 +285,36 @@ h1{
 
     <div class="card">
 
-        <h2>Personalized Recommendations</h2>
+        <h2>Sensor-Based Wellness Insight</h2>
 
-        <div class="recommendation">
-            {{ recommendation }}
-        </div>
+        <p>
+            {{ sensor_insight }}
+        </p>
+
+    </div>
+
+    <div class="card">
+
+    <h2>Personalized Recommendations</h2>
+
+    <ul>
+        {% for item in recommendation %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Assessment Summary</h2>
+
+        <p>
+            Based on questionnaire responses and simulated IoT sensor readings,
+            the system identified <strong>{{ dominant_dosha }}</strong> as the
+            dominant dosha with an overall wellness score of
+            <strong>{{ wellness }}%</strong>.
+        </p>
 
     </div>
 
@@ -192,7 +335,17 @@ h1{
         Take Assessment Again
     </a>
 
+    <a href="/download_pdf" class="btn">
+        Download PDF
+    </a>
+
 </div>
+
+<footer>
+    <p>
+        © 2026 Smart Ayurvedic & Naturopathic Wellness Assessment System
+    </p>
+</footer>
 
 </body>
 </html>

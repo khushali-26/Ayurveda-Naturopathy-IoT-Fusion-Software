@@ -2,12 +2,148 @@
 <html>
 <head>
 <title>Assessment History</title>
+
+<style>
+
+body{
+    font-family:Arial, sans-serif;
+    background:#f4f8f4;
+    margin:0;
+    padding:0;
+}
+
+nav{
+    background:#2e7d32;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:5px 10px;
+    display:inline-block;
+    font-weight:bold;
+}
+
+nav a:hover{
+    text-decoration:underline;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#2e7d32;
+}
+
+h3{
+    margin-bottom:20px;
+    color:#1b5e20;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.table-container{
+    overflow-x:auto;
+}
+
+th{
+    background:#2e7d32;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+tr:hover{
+    background:#e8f5e9;
+}
+
+footer{
+    background:#2e7d32;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+
+footer p{
+    margin:5px 0;
+} 
+
+@media (max-width: 768px){
+
+    .container{
+        width:95%;
+        padding:15px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    .steps{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .step{
+        width:100%;
+        margin-bottom:15px;
+    }
+
+    nav a{
+        display:block;
+        margin:10px 0;
+    }
+
+}
+
+</style>
+
 </head>
+
 <body>
+
+<nav>
+    <a href="/">Home</a>
+    <a href="/assessment">Assessment</a>
+    <a href="/history">History</a>
+    <a href="/about">About</a>
+    <a href="/iot">IoT Architecture</a>
+</nav>
+
+<div class="table-container">
 
 <h1>Assessment History</h1>
 
-<table border="1">
+<h3>Total Assessments: {{ records|length }}</h3>
+
+<table>
 
 <tr>
 <th>ID</th>
@@ -18,7 +154,8 @@
 <th>Pitta</th>
 <th>Kapha</th>
 <th>Wellness</th>
-<th>Dosha</th>
+<th>Status</th>
+<th>Dominant Dosha</th>
 </tr>
 
 {% for row in records %}
@@ -32,12 +169,52 @@
 <td>{{ row[5] }}</td>
 <td>{{ row[6] }}</td>
 <td>{{ row[7] }}</td>
+
+<td>
+{% if row[7] >= 80 %}
+    Excellent
+{% elif row[7] >= 60 %}
+    Good
+{% elif row[7] >= 40 %}
+    Moderate
+{% else %}
+    Needs Improvement
+{% endif %}
+</td>
+
 <td>{{ row[8] }}</td>
+
 </tr>
 
 {% endfor %}
 
 </table>
+
+</div>
+
+<footer>
+    <p>
+        © 2026 Smart Ayurvedic & Naturopathic Wellness Assessment System
+    </p>
+    <p><strong>Developed by Khushali Shandilya</strong></p>
+
+        <p>
+            Bachelors of Technology (BTech) <br>
+            Department of Electronics and Computer Engineering
+        </p>
+
+        <p>
+            Dronacharya College of Engineering
+        </p>
+
+        <p>
+            Academic Year: 2025–29
+        </p>
+
+        <p>
+            Smart Ayurvedic & Naturopathic Wellness Assessment System
+        </p>
+</footer>
 
 </body>
 </html>

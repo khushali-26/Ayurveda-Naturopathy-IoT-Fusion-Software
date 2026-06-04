@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>IoT Architecture</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f8f4;
+    margin:0;
+}
+
+nav{
+    background:#2e7d32;
+    padding:15px;
+    text-align:center;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin:5px 10px;
+    display:inline-block;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:30px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    color:#2e7d32;
+}
+
+.architecture{
+    text-align:center;
+    margin-top:40px;
+    font-size:20px;
+    line-height:2;
+}
+
+.box{
+    background:#e8f5e9;
+    border:2px solid #2e7d32;
+    border-radius:10px;
+    padding:15px;
+    margin:15px auto;
+    width:350px;
+}
+
+.arrow{
+    font-size:30px;
+    color:#2e7d32;
+}
+
+.description{
+    margin-top:30px;
+}
+
+footer{
+    background:#2e7d32;
+    color:white;
+    text-align:center;
+    padding:15px;
+    margin-top:30px;
+}
+
+footer p{
+    margin:5px 0;
+} 
+
+@media (max-width: 768px){
+
+    .container{
+        width:95%;
+        padding:15px;
+    }
+
+    h1{
+        font-size:24px;
+    }
+
+    h2{
+        font-size:20px;
+    }
+
+    .steps{
+        flex-direction:column;
+        align-items:center;
+    }
+
+    .step{
+        width:100%;
+        margin-bottom:15px;
+    }
+
+    nav a{
+        display:block;
+        margin:10px 0;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+    <a href="/">Home</a>
+    <a href="/assessment">Assessment</a>
+    <a href="/history">History</a>
+    <a href="/about">About</a>
+    <a href="/iot">IoT Architecture</a>
+</nav>
+
+<div class="container">
+
+    <h1>Proposed IoT Architecture</h1>
+
+    <div class="architecture">
+
+        <div class="box">
+            Heart Rate Sensor<br>
+            Body Temperature Sensor<br>
+            Sleep Monitoring Sensor<br>
+            Physical Activity Sensor
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="box">
+            ESP32 / IoT Microcontroller
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="box">
+            Flask Web Application
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="box">
+            SQLite Database
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="box">
+            Ayurvedic & Naturopathic Analysis Engine
+        </div>
+
+        <div class="arrow">↓</div>
+
+        <div class="box">
+            Personalized Wellness Recommendations
+        </div>
+
+    </div>
+
+    <div class="description">
+
+        <h2>Working Principle</h2>
+
+        <p>
+        In the proposed system, IoT sensors continuously collect
+        physiological and lifestyle-related data such as heart rate,
+        temperature, sleep quality, and physical activity. The data is
+        transmitted through an ESP32 microcontroller to the Flask
+        application where it is stored and analyzed. The wellness engine
+        combines Ayurvedic and Naturopathic principles to generate
+        personalized wellness recommendations for the user.
+        </p>
+
+        <h2>Current Project Status</h2>
+
+        <p>
+        The present implementation demonstrates the software prototype.
+        The current implementation functions as a web-based wellness assessment
+        system developed using Python, Flask, HTML, CSS, and SQLite. Users can
+        register, complete a comprehensive Ayurvedic and Naturopathic
+        questionnaire, receive personalized dosha analysis (Vata, Pitta, and
+        Kapha), view wellness scores, obtain customized recommendations, and
+        store assessment records in a database for future reference.
+        </p>
+
+        <p>
+        The system successfully demonstrates the integration of traditional
+        Ayurvedic and Naturopathic wellness concepts with modern web
+        technologies. IoT sensor integration is proposed as a future enhancement
+        to enable real-time health monitoring and automated wellness analysis and
+        can be implemented using ESP32-based sensor modules.
+        </p>
+
+    </div>
+
+</div>
+
+<footer>
+    <p>
+        © 2026 Smart Ayurvedic & Naturopathic Wellness Assessment System
+    </p>
+    <p><strong>Developed by Khushali Shandilya</strong></p>
+
+        <p>
+            Bachelors of Technology (BTech) <br>
+            Department of Electronics and Computer Engineering
+        </p>
+
+        <p>
+            Dronacharya College of Engineering
+        </p>
+
+        <p>
+            Academic Year: 2025–29
+        </p>
+
+        <p>
+            Smart Ayurvedic & Naturopathic Wellness Assessment System
+        </p>
+</footer>
+
+</body>
+</html>
