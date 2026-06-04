@@ -311,7 +311,7 @@ def analyze():
 
     session['sensor_insight'] = sensor_insight
     
-    session['recommendation'] = recommendation
+    session['recommendation'] = ", ".join(recommendation)
 
     return render_template(
         'dashboard.html',
@@ -369,6 +369,21 @@ def download_report():
 
     pdf.drawString(100, 440,
                    f"Daily Steps: {session.get('steps')}")
+    
+    pdf.drawString(100, 420,
+                   f"Hydration Status: {session.get('hydration')}")
+
+    pdf.drawString(100, 390,
+                   "Sensor Insight:")
+
+    pdf.drawString(120, 370,
+                   str(session.get('sensor_insight'))[:100])
+
+    pdf.drawString(100, 330,
+                   "Recommendations:")
+
+    pdf.drawString(120, 310,
+                   str(session.get('recommendation')))
 
     pdf.save()
 
