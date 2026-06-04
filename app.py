@@ -1,8 +1,13 @@
 import sqlite3
+import random
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, send_file
+from reportlab.pdfgen import canvas
+import io
 
 app = Flask(__name__)
+
+app.secret_key = "ayurveda_project_key"
 
 @app.route('/')
 def home():
@@ -28,6 +33,13 @@ def questionnaire():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
+
+    from datetime import datetime
+    today = datetime.now().strftime("%d-%m-%Y")
+
+    name = request.form.get("name")
+    age = request.form.get("age")
+    gender = request.form.get("gender")
 
     # -------------------------
     # Initialize Scores
@@ -139,6 +151,24 @@ def analyze():
 
     if wellness < 0:
         wellness = 0
+        wellness_status = "Needs Improvement"
+        hydration = "Needs Improvement"
+
+    elif wellness >= 80:
+        wellness_status = "Excellent"
+        hydration = "Good"
+    
+    elif wellness >= 60:
+        wellness_status = "Good"
+        hydration = "Moderate"
+        
+    elif wellness >= 40:
+        wellness_status = "Moderate"
+        hydration = "Low"
+        
+    else:
+        wellness_status = "Needs Improvement"
+        hydration = "Needs Improvement"
 
 
     # -------------------------
@@ -151,7 +181,23 @@ def analyze():
         "Kapha": kapha
     }
 
+
     dominant_dosha = max(doshas, key=doshas.get)
+
+    body_temp = round(random.uniform(97.5, 99.2), 1)
+    steps = random.randint(2000, 10000)
+
+    if dominant_dosha == "Vata":
+        heart_rate = random.randint(80, 100)
+        sleep_hours = round(random.uniform(4.5, 6.5), 1)
+
+    elif dominant_dosha == "Pitta":
+        heart_rate = random.randint(70, 90)
+        sleep_hours = round(random.uniform(6.0, 8.0), 1)
+
+    else:  # Kapha
+        heart_rate = random.randint(60, 75)
+        sleep_hours = round(random.uniform(7.0, 9.0), 1)
     
     conn = sqlite3.connect('wellness.db')
 
@@ -178,47 +224,161 @@ def analyze():
     conn.commit()
     conn.close()
 
-
     # -------------------------
     # RECOMMENDATIONS
     # -------------------------
 
     if dominant_dosha == "Vata":
-        recommendation = """
-        Warm cooked foods,
-        regular sleep schedule,
-        meditation,
-        oil massage,
-        grounding activities.
-        """
+        recommendation = [
+            "Warm cooked foods",
+            "Regular sleep schedule",
+            "Meditation",
+            "Oil massage",
+            "Grounding activities"
+        ]
 
     elif dominant_dosha == "Pitta":
-        recommendation = """
-        Cooling foods,
-        avoid excessive spicy meals,
-        mindfulness practices,
-        adequate hydration,
-        stress management.
-        """
+        recommendation = [
+            "Cooling foods",
+            "Avoid excessive spicy meals",
+            "Mindfulness practices",
+            "Adequate hydration",
+            "Stress management"
+        ]
 
     else:
-        recommendation = """
-        Regular exercise,
-        lighter meals,
-        morning sunlight exposure,
-        active lifestyle,
-        reduced sedentary habits.
-        """
+        recommendation = [
+            "Regular exercise",
+            "Lighter meals",
+            "Morning sunlight exposure",
+            "Active lifestyle",
+            "Reduced sedentary habits"
+        ]
 
+    # -------------------------
+    # SENSOR BASED INSIGHT
+    # -------------------------
+
+    sensor_insight = ""
+
+    if sleep_hours < 5:
+        sensor_insight += (
+            "Low sleep duration detected. "
+            "This may contribute to Vata imbalance and fatigue. "
+        )
+
+    if heart_rate > 90:
+        sensor_insight += (
+            "Elevated heart rate detected. "
+            "Stress reduction and relaxation techniques are recommended. "
+        )
+
+    if steps < 3000:
+        sensor_insight += (
+            "Low physical activity detected. "
+            "Regular walking or yoga is recommended. "
+        )
+
+    if body_temp > 99:
+        sensor_insight += (
+            "Slightly elevated body temperature detected. "
+            "Hydration and adequate rest are advised. "
+        )
+
+    if sensor_insight == "":
+        sensor_insight = (
+            "All simulated sensor readings are within a healthy wellness range."
+        )
+    
+    session['name'] = name 
+    session['age'] = age
+    session['gender'] = gender
+
+    session['vata'] = vata
+    session['pitta'] = pitta
+    session['kapha'] = kapha
+
+    session['wellness'] = wellness
+    session['wellness_status'] = wellness_status
+
+    session['dominant_dosha'] = dominant_dosha
+
+    session['heart_rate'] = heart_rate
+    session['body_temp'] = body_temp
+    session['sleep_hours'] = sleep_hours
+    session['steps'] = steps
+    session['hydration'] = hydration
+
+    session['sensor_insight'] = sensor_insight
+    
+    session['recommendation'] = recommendation
 
     return render_template(
         'dashboard.html',
+        name=name,
+        age=age,
+        gender=gender,
+        today=today,
+        wellness_status=wellness_status,
         vata=vata,
         pitta=pitta,
         kapha=kapha,
         wellness=wellness,
+        heart_rate=heart_rate,
+        body_temp=body_temp,
+        sleep_hours=sleep_hours,
+        steps=steps,
+        hydration=hydration,
         dominant_dosha=dominant_dosha,
+        sensor_insight=sensor_insight,
         recommendation=recommendation
+    )
+
+
+@app.route('/download_pdf')
+def download_report():
+
+    buffer = io.BytesIO()
+
+    pdf = canvas.Canvas(buffer)
+
+    pdf.drawString(100, 800, "Wellness Assessment Report")
+
+    pdf.drawString(100, 770, f"Name: {session.get('name')}")
+    pdf.drawString(100, 750, f"Age: {session.get('age')}")
+    pdf.drawString(100, 730, f"Gender: {session.get('gender')}")
+
+    pdf.drawString(100, 690, f"Vata Score: {session.get('vata')}")
+    pdf.drawString(100, 670, f"Pitta Score: {session.get('pitta')}")
+    pdf.drawString(100, 650, f"Kapha Score: {session.get('kapha')}")
+
+    pdf.drawString(100, 610, f"Wellness Score: {session.get('wellness')}")
+    pdf.drawString(100, 590, f"Status: {session.get('wellness_status')}")
+
+    pdf.drawString(100, 550,
+                   f"Dominant Dosha: {session.get('dominant_dosha')}")
+
+    pdf.drawString(100, 500,
+                   f"Heart Rate: {session.get('heart_rate')} bpm")
+
+    pdf.drawString(100, 480,
+                   f"Body Temperature: {session.get('body_temp')} °F")
+
+    pdf.drawString(100, 460,
+                   f"Sleep Hours: {session.get('sleep_hours')}")
+
+    pdf.drawString(100, 440,
+                   f"Daily Steps: {session.get('steps')}")
+
+    pdf.save()
+
+    buffer.seek(0)
+
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name="Wellness_Report.pdf",
+        mimetype="application/pdf"
     )
 
 @app.route('/history')
@@ -239,6 +399,13 @@ def history():
         records=records
     )
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/iot')
+def iot():
+    return render_template('iot.html')
 
 if __name__ == '__main__':
     app.run(debug=True) 
