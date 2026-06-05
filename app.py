@@ -418,9 +418,9 @@ def history():
 def about():
     return render_template('about.html')
 
-@app.route('/iot')
+'''@app.route('/iot')
 def iot():
-    return render_template('iot.html')
+    return render_template('iot.html')'''
 
 if __name__ == '__main__':
     app.run(debug=True) 
