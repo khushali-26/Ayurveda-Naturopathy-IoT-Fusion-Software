@@ -490,7 +490,15 @@ def download_pdf():
     pdf.setFillColor(colors.black)
     pdf.setFont("Helvetica",10)
 
+    recommendations = session.get("recommendation", "").split(", ")
+
     y = 280
+
+    for item in recommendations:
+        pdf.drawString(60, y, u"\u2022 " + item)
+        y -= 18
+
+    '''y = 280
 
     recommendations = session.get("recommendation")
 
@@ -498,10 +506,9 @@ def download_pdf():
     
     for item in recommendations:
         
-        pdf.drawString(60,y,u"\u2022 " + item
-        )
+        pdf.drawString(60,y,u"\u2022 " + item)
         
-        y -= 18
+        y -= 18'''
 
     # --------------------------------------------------
     # DISCLAIMER
@@ -577,8 +584,8 @@ def download_pdf():
 @app.route('/history')
 def history():
 
-    if not session.get('admin'):
-        return redirect(url_for('admin'))
+    '''if not session.get('admin'):
+        return redirect(url_for('admin'))'''
 
     conn = sqlite3.connect('wellness.db')
     cursor = conn.cursor()
@@ -598,12 +605,12 @@ def about():
 @app.route('/iot')
 def iot():
 
-    if not session.get('admin'):
-        return redirect(url_for('admin'))
+    '''if not session.get('admin'):
+        return redirect(url_for('admin'))'''
 
     return render_template('iot.html')
 
-@app.route('/admin', methods=['GET', 'POST'])
+'''@app.route('/admin', methods=['GET', 'POST'])
 def admin():
 
     if request.method == 'POST':
@@ -621,7 +628,7 @@ def logout():
 
     session.pop('admin', None)
 
-    return redirect('/')
+    return redirect('/')'''
 
 if __name__ == '__main__':
     app.run(debug=True) 
